@@ -2,7 +2,7 @@
 
 An implementation of the [Fowler–Noll–Vo hash function][chongo].
 
-### [Read the documentation](http://doc.servo.org/fnv/)
+### [Read the documentation](https://doc.servo.org/fnv/)
 
 
 ## About
