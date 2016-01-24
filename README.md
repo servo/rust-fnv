@@ -1,8 +1,8 @@
 # rust-fnv
 
-An implementation of the [Fowler–Noll–Vo hash function](chongo).
+An implementation of the [Fowler–Noll–Vo hash function][chongo].
 
-### [Read the documentation](http://doc.servo.org/fnv/)
+### [Read the documentation](https://doc.servo.org/fnv/)
 
 
 ## About
@@ -10,10 +10,10 @@ An implementation of the [Fowler–Noll–Vo hash function](chongo).
 The FNV hash function is a custom `Hasher` implementation that is more
 efficient for smaller hash keys.
 
-[The Rust FAQ states that](faq) while the default `Hasher` implementation,
+[The Rust FAQ states that][faq] while the default `Hasher` implementation,
 SipHash, is good in many cases, it is notably slower than other algorithms
 with short keys, such as when you have a map of integers to other values.
-In cases like these, [FNV is demonstrably faster](graphs).
+In cases like these, [FNV is demonstrably faster][graphs].
 
 Its disadvantages are that it performs badly on larger inputs, and
 provides no protection against collision attacks, where a malicious user
