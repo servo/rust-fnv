@@ -33,7 +33,7 @@ To include this crate in your program, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-fnv = "1.0.0"
+fnv = "1.0.2"
 ```
 
 
@@ -44,13 +44,12 @@ must create a default instance of a `FnvHasher` state, then create a new
 map using this state with `HashMap::with_hash_state`. A full example:
 
 ```rust
-#![feature(hashmap_hasher)]
 use std::collections::HashMap;
-use std::collections::hash_state::DefaultState;
+use std::hash::BuildHasherDefault;
 use fnv::FnvHasher;
 
-let fnv = DefaultState::<FnvHasher>::default();
-let mut map = HashMap::with_hash_state(fnv);
+let fnv = BuildHasherDefault::<FnvHasher>::default();
+let mut map = HashMap::with_hasher(fnv);
 map.insert(1, "one");
 map.insert(2, "two");
 ```
@@ -62,13 +61,12 @@ The standard library’s `HashSet` can be configured to use the FNV hasher
 with the same mechanism.
 
 ```rust
-#![feature(hashmap_hasher)]
 use std::collections::HashSet;
-use std::collections::hash_state::DefaultState;
+use std::hash::BuildHasherDefault;
 use fnv::FnvHasher;
 
-let fnv = DefaultState::<FnvHasher>::default();
-let mut set = HashSet::with_hash_state(fnv);
+let fnv = BuildHasherDefault::<FnvHasher>::default();
+let mut set = HashSet::with_hasher(fnv);
 set.insert(1);
 set.insert(2);
 ```
