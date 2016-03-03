@@ -12,3 +12,10 @@ documentation = "https://doc.servo.org/fnv/"
 name = "fnv"
 path = "lib.rs"
 doctest = false
+
+[features]
+serde-serialization = ["serde", "serde_macros"]
+
+[dependencies]
+serde = {version = ">=0.6, <0.8", optional = true}
+serde_macros = {version = ">=0.6, <0.8", optional = true}
