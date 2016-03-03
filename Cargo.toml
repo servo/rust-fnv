@@ -11,4 +11,3 @@ documentation = "https://doc.servo.org/fnv/"
 [lib]
 name = "fnv"
 path = "lib.rs"
-doctest = false
