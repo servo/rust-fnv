@@ -33,7 +33,7 @@ To include this crate in your program, add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-fnv = "1.0.2"
+fnv = "1.0.3"
 ```
 
 
