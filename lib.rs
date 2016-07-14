@@ -78,6 +78,12 @@ impl Default for FnvHasher {
     }
 }
 
+impl FnvHasher {
+    pub fn with_key(key: u64) -> FnvHasher {
+        FnvHasher(key)
+    }
+}
+
 impl Hasher for FnvHasher {
 
     #[inline]
