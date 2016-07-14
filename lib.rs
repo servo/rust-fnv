@@ -78,8 +78,16 @@ impl Default for FnvHasher {
     }
 }
 
-impl Hasher for FnvHasher {
+impl FnvHasher {
+    /// Create an FNV hasher starting with a state corresponding
+    /// to the hash `key`.
+    #[inline]
+    pub fn with_key(key: u64) -> FnvHasher {
+        FnvHasher(key)
+    }
+}
 
+impl Hasher for FnvHasher {
     #[inline]
     fn finish(&self) -> u64 {
         self.0
