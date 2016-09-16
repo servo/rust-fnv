@@ -39,34 +39,39 @@ fnv = "1.0.3"
 
 ## Using FNV in a HashMap
 
-To configure a `HashMap` in the standard library to use the FNV hasher, you
-must create a default instance of a `FnvHasher` state, then create a new
-map using this state with `HashMap::with_hash_state`. A full example:
+The `FnvHashMap` type alias is the easiest way to use the standard library’s
+`HashMap` with FNV.
 
 ```rust
-use std::collections::HashMap;
-use std::hash::BuildHasherDefault;
-use fnv::FnvHasher;
+use fnv::FnvHashMap;
 
-let fnv = BuildHasherDefault::<FnvHasher>::default();
-let mut map = HashMap::with_hasher(fnv);
+let mut map = FnvHashMap::default();
+map.insert(1, "one");
+map.insert(2, "two");
+
+map = FnvHashMap::with_capacity_and_hasher(10, Default::default());
 map.insert(1, "one");
 map.insert(2, "two");
 ```
 
+Note, the standard library’s `HashMap::new` and `HashMap::with_capacity`
+are only implemented for the `RandomState` hasher, so using `Default` to
+get the hasher is the next best option.
+
 
 ## Using FNV in a HashSet
 
-The standard library’s `HashSet` can be configured to use the FNV hasher
-with the same mechanism.
+Similarly, `FnvHashSet` is a type alias for the standard library’s `HashSet`
+with FNV.
 
 ```rust
-use std::collections::HashSet;
-use std::hash::BuildHasherDefault;
-use fnv::FnvHasher;
+use fnv::FnvHashSet;
 
-let fnv = BuildHasherDefault::<FnvHasher>::default();
-let mut set = HashSet::with_hasher(fnv);
+let mut set = FnvHashSet::default();
+set.insert(1);
+set.insert(2);
+
+set = FnvHashSet::with_capacity_and_hasher(10, Default::default());
 set.insert(1);
 set.insert(2);
 ```
