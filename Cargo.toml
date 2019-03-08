@@ -7,7 +7,11 @@ license = "Apache-2.0 / MIT"
 readme = "README.md"
 repository = "https://github.com/servo/rust-fnv"
 documentation = "https://doc.servo.org/fnv/"
+edition = "2018"
 
 [lib]
 name = "fnv"
 path = "lib.rs"
+
+[dependencies]
+hashbrown = "0.1"

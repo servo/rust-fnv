@@ -64,10 +64,11 @@
 //! [faq]: https://www.rust-lang.org/en-US/faq.html#why-are-rusts-hashmaps-slow
 //! [graphs]: https://cglab.ca/~abeinges/blah/hash-rs/
 
+#![no_std]
 
-use std::default::Default;
-use std::hash::{Hasher, BuildHasherDefault};
-use std::collections::{HashMap, HashSet};
+use core::default::Default;
+use core::hash::{Hasher, BuildHasherDefault};
+use hashbrown::{HashMap, HashSet};
 
 /// An implementation of the Fowler–Noll–Vo hash function.
 ///
@@ -123,6 +124,8 @@ pub type FnvHashSet<T> = HashSet<T, FnvBuildHasher>;
 
 #[cfg(test)]
 mod test {
+    extern crate std;
+    use std::prelude::v1::*;
     use super::*;
     use std::hash::Hasher;
 
