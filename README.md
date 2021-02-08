@@ -10,10 +10,10 @@ An implementation of the [Fowler–Noll–Vo hash function][chongo].
 The FNV hash function is a custom `Hasher` implementation that is more
 efficient for smaller hash keys.
 
-[The Rust FAQ states that][faq] while the default `Hasher` implementation,
-SipHash, is good in many cases, it is notably slower than other algorithms
-with short keys, such as when you have a map of integers to other values.
-In cases like these, [FNV is demonstrably faster][graphs].
+[The Rust Standard Library documentation][docs] states that while the default
+`Hasher` implementation, SipHash, is good in many cases, it is notably slower
+than other algorithms with short keys, such as when you have a map of integers
+to other values.  In cases like these, [FNV is demonstrably faster][graphs].
 
 Its disadvantages are that it performs badly on larger inputs, and
 provides no protection against collision attacks, where a malicious user
@@ -77,5 +77,5 @@ set.insert(2);
 ```
 
 [chongo]: http://www.isthe.com/chongo/tech/comp/fnv/index.html
-[faq]: https://www.rust-lang.org/en-US/faq.html#why-are-rusts-hashmaps-slow
+[docs]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
 [graphs]: https://cglab.ca/~abeinges/blah/hash-rs/
