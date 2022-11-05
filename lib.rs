@@ -82,6 +82,9 @@ use core::default::Default;
 #[cfg(not(feature = "std"))]
 use core::hash::{Hasher, BuildHasherDefault};
 
+const INITIAL_STATE: u64 = 0xcbf29ce484222325;
+const PRIME: u64 = 0x100000001b3;
+
 /// An implementation of the Fowler–Noll–Vo hash function.
 ///
 /// See the [crate documentation](index.html) for more details.
@@ -92,7 +95,7 @@ impl Default for FnvHasher {
 
     #[inline]
     fn default() -> FnvHasher {
-        FnvHasher(0xcbf29ce484222325)
+        FnvHasher(INITIAL_STATE)
     }
 }
 
@@ -117,7 +120,7 @@ impl Hasher for FnvHasher {
 
         for byte in bytes.iter() {
             hash = hash ^ (*byte as u64);
-            hash = hash.wrapping_mul(0x100000001b3);
+            hash = hash.wrapping_mul(PRIME);
         }
 
         *self = FnvHasher(hash);
@@ -134,6 +137,20 @@ pub type FnvHashMap<K, V> = HashMap<K, V, FnvBuildHasher>;
 /// A `HashSet` using a default FNV hasher.
 #[cfg(feature = "std")]
 pub type FnvHashSet<T> = HashSet<T, FnvBuildHasher>;
+
+
+/// Const version of FNV hash.
+#[inline]
+pub const fn fnv_hash(bytes: &[u8]) -> u64 {
+    let mut hash = INITIAL_STATE;
+    let mut i = 0;
+    while i < bytes.len() {
+        hash = hash ^ (bytes[i] as u64);
+        hash = hash.wrapping_mul(PRIME);
+        i += 1;
+    }
+    hash
+}
 
 
 #[cfg(test)]
@@ -363,5 +380,10 @@ mod test {
         assert_eq!(fnv1a(&repeat_500(b"\x07")), 0xc23e9fccd6f70591);
         assert_eq!(fnv1a(&repeat_500(b"~")), 0xc1af12bdfe16b5b5);
         assert_eq!(fnv1a(&repeat_500(b"\x7f")), 0x39e9f18f2f85e221);
+    }
+
+    #[test]
+    fn fnv_hash_standalone() {
+        assert_eq!(fnv_hash(b"hello world"), fnv1a(b"hello world"));
     }
 }
