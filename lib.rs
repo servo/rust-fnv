@@ -21,7 +21,9 @@
 //! denial-of-service attacks, and can assume that its inputs are going to be
 //! small—a perfect use case for FNV.
 //!
-#![cfg_attr(feature = "std", doc = r#"
+#![cfg_attr(
+    feature = "std",
+    doc = r#"
 
 ## Using FNV in a `HashMap`
 
@@ -60,7 +62,8 @@ set = FnvHashSet::with_capacity_and_hasher(10, Default::default());
 set.insert(1);
 set.insert(2);
 ```
-"#)]
+"#
+)]
 //!
 //! [chongo]: http://www.isthe.com/chongo/tech/comp/fnv/index.html
 //! [docs]: https://doc.rust-lang.org/std/collections/struct.HashMap.html
@@ -71,16 +74,16 @@ set.insert(2);
 #[cfg(all(not(feature = "std"), test))]
 extern crate alloc;
 
-#[cfg(feature = "std")]
-use std::default::Default;
-#[cfg(feature = "std")]
-use std::hash::{Hasher, BuildHasherDefault};
-#[cfg(feature = "std")]
-use std::collections::{HashMap, HashSet};
 #[cfg(not(feature = "std"))]
 use core::default::Default;
 #[cfg(not(feature = "std"))]
-use core::hash::{Hasher, BuildHasherDefault};
+use core::hash::{BuildHasherDefault, Hasher};
+#[cfg(feature = "std")]
+use std::collections::{HashMap, HashSet};
+#[cfg(feature = "std")]
+use std::default::Default;
+#[cfg(feature = "std")]
+use std::hash::{BuildHasherDefault, Hasher};
 
 const INITIAL_STATE: u64 = 0xcbf29ce484222325;
 const PRIME: u64 = 0x100000001b3;
@@ -92,7 +95,6 @@ const PRIME: u64 = 0x100000001b3;
 pub struct FnvHasher(u64);
 
 impl Default for FnvHasher {
-
     #[inline]
     fn default() -> FnvHasher {
         FnvHasher(INITIAL_STATE)
@@ -138,7 +140,6 @@ pub type FnvHashMap<K, V> = HashMap<K, V, FnvBuildHasher>;
 #[cfg(feature = "std")]
 pub type FnvHashSet<T> = HashSet<T, FnvBuildHasher>;
 
-
 /// Const version of FNV hash.
 #[inline]
 pub const fn fnv_hash(bytes: &[u8]) -> u64 {
@@ -152,14 +153,13 @@ pub const fn fnv_hash(bytes: &[u8]) -> u64 {
     hash
 }
 
-
 #[cfg(test)]
 mod test {
     use super::*;
-    #[cfg(feature = "std")]
-    use std::hash::Hasher;
     #[cfg(not(feature = "std"))]
     use alloc::vec::Vec;
+    #[cfg(feature = "std")]
+    use std::hash::Hasher;
 
     fn fnv1a(bytes: &[u8]) -> u64 {
         let mut hasher = FnvHasher::default();
