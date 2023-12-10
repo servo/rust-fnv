@@ -89,6 +89,7 @@ const PRIME: u64 = 0x100000001b3;
 ///
 /// See the [crate documentation](index.html) for more details.
 #[allow(missing_copy_implementations)]
+#[derive(Clone)]
 pub struct FnvHasher(u64);
 
 impl Default for FnvHasher {
