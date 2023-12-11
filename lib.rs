@@ -85,8 +85,8 @@ use std::default::Default;
 #[cfg(feature = "std")]
 use std::hash::{BuildHasherDefault, Hasher};
 
-const INITIAL_STATE: u64 = 0xcbf29ce484222325;
-const PRIME: u64 = 0x100000001b3;
+const INITIAL_STATE: u64 = 0xcbf2_9ce4_8422_2325;
+const PRIME: u64 = 0x0100_0000_01b3;
 
 /// An implementation of the Fowler–Noll–Vo hash function.
 ///
@@ -106,6 +106,7 @@ impl FnvHasher {
     /// Create an FNV hasher starting with a state corresponding
     /// to the hash `key`.
     #[inline]
+    #[must_use]
     pub fn with_key(key: u64) -> FnvHasher {
         FnvHasher(key)
     }
@@ -121,8 +122,8 @@ impl Hasher for FnvHasher {
     fn write(&mut self, bytes: &[u8]) {
         let FnvHasher(mut hash) = *self;
 
-        for byte in bytes.iter() {
-            hash = hash ^ (*byte as u64);
+        for byte in bytes {
+            hash ^= u64::from(*byte);
             hash = hash.wrapping_mul(PRIME);
         }
 
@@ -143,11 +144,12 @@ pub type FnvHashSet<T> = HashSet<T, FnvBuildHasher>;
 
 /// Const version of FNV hash.
 #[inline]
+#[must_use]
 pub const fn fnv_hash(bytes: &[u8]) -> u64 {
     let mut hash = INITIAL_STATE;
     let mut i = 0;
     while i < bytes.len() {
-        hash = hash ^ (bytes[i] as u64);
+        hash ^= bytes[i] as u64;
         hash = hash.wrapping_mul(PRIME);
         i += 1;
     }
@@ -169,14 +171,15 @@ mod test {
     }
 
     fn repeat_10(bytes: &[u8]) -> Vec<u8> {
-        (0..10).flat_map(|_| bytes.iter().cloned()).collect()
+        (0..10).flat_map(|_| bytes.iter().copied()).collect()
     }
 
     fn repeat_500(bytes: &[u8]) -> Vec<u8> {
-        (0..500).flat_map(|_| bytes.iter().cloned()).collect()
+        (0..500).flat_map(|_| bytes.iter().copied()).collect()
     }
 
     #[test]
+    #[allow(clippy::unreadable_literal, clippy::too_many_lines)]
     fn basic_tests() {
         assert_eq!(fnv1a(b""), 0xcbf29ce484222325);
         assert_eq!(fnv1a(b"a"), 0xaf63dc4c8601ec8c);
