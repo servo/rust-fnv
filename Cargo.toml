@@ -9,6 +9,7 @@ repository = "https://github.com/servo/rust-fnv"
 documentation = "https://doc.servo.org/fnv/"
 categories = ["algorithms", "data-structures"]
 edition = "2021"
+rust-version = "1.56.1"
 
 [lib]
 name = "fnv"
